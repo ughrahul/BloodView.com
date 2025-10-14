@@ -39,44 +39,60 @@ try {
     die("Database connection failed. Please try again later.");
 }
 
-// Helper function for MySQL to PostgreSQL compatibility
-function mysqli_query($con, $query) {
-    try {
-        return $con->query($query);
-    } catch (PDOException $e) {
-        error_log("Query failed: " . $e->getMessage() . " Query: " . $query);
-        return false;
+// Helper functions for MySQL to PostgreSQL compatibility
+if (!function_exists('mysqli_query')) {
+    function mysqli_query($con, $query) {
+        try {
+            return $con->query($query);
+        } catch (PDOException $e) {
+            error_log("Query failed: " . $e->getMessage() . " Query: " . $query);
+            return false;
+        }
     }
 }
 
-function mysqli_num_rows($result) {
-    return $result ? $result->rowCount() : 0;
+if (!function_exists('mysqli_num_rows')) {
+    function mysqli_num_rows($result) {
+        return $result ? $result->rowCount() : 0;
+    }
 }
 
-function mysqli_fetch_assoc($result) {
-    return $result ? $result->fetch() : false;
+if (!function_exists('mysqli_fetch_assoc')) {
+    function mysqli_fetch_assoc($result) {
+        return $result ? $result->fetch() : false;
+    }
 }
 
-function mysqli_real_escape_string($con, $string) {
-    return $con->quote($string);
+if (!function_exists('mysqli_real_escape_string')) {
+    function mysqli_real_escape_string($con, $string) {
+        return $con->quote($string);
+    }
 }
 
-function mysqli_error($con) {
-    $error = $con->errorInfo();
-    return $error[2] ?? 'Unknown error';
+if (!function_exists('mysqli_error')) {
+    function mysqli_error($con) {
+        $error = $con->errorInfo();
+        return $error[2] ?? 'Unknown error';
+    }
 }
 
-function mysqli_connect_error() {
-    return 'Connection failed';
+if (!function_exists('mysqli_connect_error')) {
+    function mysqli_connect_error() {
+        return 'Connection failed';
+    }
 }
 
-function mysqli_set_charset($con, $charset) {
-    // PostgreSQL uses UTF8 by default
-    return true;
+if (!function_exists('mysqli_set_charset')) {
+    function mysqli_set_charset($con, $charset) {
+        // PostgreSQL uses UTF8 by default
+        return true;
+    }
 }
 
-function mysqli_close($con) {
-    $con = null;
-    return true;
+if (!function_exists('mysqli_close')) {
+    function mysqli_close($con) {
+        $con = null;
+        return true;
+    }
 }
 ?>
