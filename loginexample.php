@@ -1,41 +1,52 @@
 <?php
 session_start(); // Start the session
 
-include("connect.php"); // Include the database connection
+// Try to include database connection, but don't fail if it doesn't work
+try {
+    include("connect.php");
+    $db_connected = true;
+} catch (Exception $e) {
+    $db_connected = false;
+    error_log("Database connection failed: " . $e->getMessage());
+}
 
 // Initialize variables to store username and error message
 $username = "";
 $loginError = "";
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $username = $_POST['username'];
-    $password = $_POST['password'];
+    if (!$db_connected) {
+        $_SESSION['loginError'] = "Database connection failed. Please try again later.";
+    } else {
+        $username = $_POST['username'];
+        $password = $_POST['password'];
 
-    // Use prepared statement for security
-    $query = "SELECT * FROM users WHERE username = ?";
-    $stmt = $con->prepare($query);
-    $stmt->execute([$username]);
-    $result = $stmt->fetch();
+        // Use prepared statement for security
+        $query = "SELECT * FROM users WHERE username = ?";
+        $stmt = $con->prepare($query);
+        $stmt->execute([$username]);
+        $result = $stmt->fetch();
 
-    if ($result && $stmt->rowCount() > 0) {
-        $hashedPassword = $result['password'];
+        if ($result && $stmt->rowCount() > 0) {
+            $hashedPassword = $result['password'];
 
-        // Verify the entered password against the stored hashed password
-        if (password_verify($password, $hashedPassword)) {
-            // Authentication successful
-            $_SESSION['username'] = $username; // Store username in session
-            header("Location: homepage.php"); // Redirect to homepage
-            exit();
+            // Verify the entered password against the stored hashed password
+            if (password_verify($password, $hashedPassword)) {
+                // Authentication successful
+                $_SESSION['username'] = $username; // Store username in session
+                header("Location: homepage.php"); // Redirect to homepage
+                exit();
+            } else {
+                $_SESSION['loginError'] = "Invalid Username or Password !!";
+                header("Location: loginexample.php"); // Redirect back to the login page
+                exit();
+            }
+
         } else {
             $_SESSION['loginError'] = "Invalid Username or Password !!";
             header("Location: loginexample.php"); // Redirect back to the login page
             exit();
         }
-
-    } else {
-        $_SESSION['loginError'] = "Invalid Username or Password !!";
-        header("Location: loginexample.php"); // Redirect back to the login page
-        exit();
     }
 }
 ?>
@@ -54,6 +65,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         if (!empty($_SESSION['registrationSuccess'])) {
             echo '<div class="success">' . $_SESSION['registrationSuccess'] . '</div>';
             unset($_SESSION['registrationSuccess']); // Clear the success message from the session
+        }
+        
+        // Show database connection status
+        if (!$db_connected) {
+            echo '<div class="error" style="color: red; font-size: 16px; margin: 10px 0; padding: 10px; background: #ffe6e6; border: 1px solid #ff9999; border-radius: 4px;">⚠️ Database connection failed. Please check your environment variables in Vercel.</div>';
         }
         ?>
 
