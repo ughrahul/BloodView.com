@@ -21,12 +21,6 @@
     "SESSION_LIFETIME": "3600",
     "CSRF_TOKEN_ENABLED": "true"
   },
-  "routes": [
-    {
-      "src": "/(.*)",
-      "dest": "/$1"
-    }
-  ],
   "headers": [
     {
       "source": "/(.*)",
