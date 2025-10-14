@@ -1,4 +1,5 @@
 {
+  "version": 2,
   "functions": {
     "*.php": {
       "runtime": "vercel-php@0.6.0"
@@ -15,7 +16,9 @@
     "SUPABASE_SERVICE_ROLE_KEY": "@supabase_service_role_key",
     "APP_ENV": "production",
     "APP_DEBUG": "false",
-    "USE_DB_SESSIONS": "true"
+    "USE_DB_SESSIONS": "true",
+    "SESSION_LIFETIME": "3600",
+    "CSRF_TOKEN_ENABLED": "true"
   },
   "builds": [
     {
@@ -48,8 +51,13 @@
         {
           "key": "Referrer-Policy",
           "value": "strict-origin-when-cross-origin"
+        },
+        {
+          "key": "Strict-Transport-Security",
+          "value": "max-age=31536000; includeSubDomains"
         }
       ]
     }
-  ]
+  ],
+  "regions": ["iad1"]
 }
