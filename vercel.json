@@ -6,21 +6,6 @@
       "use": "vercel-php@0.6.0"
     }
   ],
-  "env": {
-    "DATABASE_URL": "@database_url",
-    "DB_HOST": "@db_host",
-    "DB_PASSWORD": "@db_password",
-    "DB_USERNAME": "@db_username",
-    "DB_NAME": "@db_name",
-    "SUPABASE_URL": "@supabase_url",
-    "SUPABASE_ANON_KEY": "@supabase_anon_key",
-    "SUPABASE_SERVICE_ROLE_KEY": "@supabase_service_role_key",
-    "APP_ENV": "production",
-    "APP_DEBUG": "false",
-    "USE_DB_SESSIONS": "true",
-    "SESSION_LIFETIME": "3600",
-    "CSRF_TOKEN_ENABLED": "true"
-  },
   "headers": [
     {
       "source": "/(.*)",
