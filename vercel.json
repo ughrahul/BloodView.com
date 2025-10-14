@@ -1,10 +1,11 @@
 {
   "version": 2,
-  "functions": {
-    "*.php": {
-      "runtime": "vercel-php@0.6.0"
+  "builds": [
+    {
+      "src": "*.php",
+      "use": "vercel-php@0.6.0"
     }
-  },
+  ],
   "env": {
     "DATABASE_URL": "@database_url",
     "DB_HOST": "@db_host",
@@ -20,12 +21,6 @@
     "SESSION_LIFETIME": "3600",
     "CSRF_TOKEN_ENABLED": "true"
   },
-  "builds": [
-    {
-      "src": "*.php",
-      "use": "vercel-php@0.6.0"
-    }
-  ],
   "routes": [
     {
       "src": "/(.*)",
