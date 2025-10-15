@@ -1,14 +1,9 @@
 <?php
 session_start(); // Start the session
 
-// Try to include database connection, but don't fail if it doesn't work
-try {
-    include("connect.php");
-    $db_connected = true;
-} catch (Exception $e) {
-    $db_connected = false;
-    error_log("Database connection failed: " . $e->getMessage());
-}
+// Include database connection and detect connection status
+include("connect.php");
+$db_connected = (isset($con) && $con instanceof PDO);
 
 // Initialize variables to store username and error message
 $username = "";

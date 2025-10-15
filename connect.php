@@ -37,7 +37,8 @@ try {
     
 } catch (PDOException $e) {
     error_log("Database connection failed: " . $e->getMessage());
-    die("Database connection failed. Please try again later.");
+    // On serverless (Vercel), avoid die() which can cause blank pages behind rewrites
+    $con = null;
 }
 
 // Helper functions for MySQL to PostgreSQL compatibility
