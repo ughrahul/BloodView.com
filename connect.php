@@ -5,11 +5,12 @@
  */
 
 // Database configuration using environment variables (Vercel/Supabase)
-$host = $_ENV['DB_HOST'] ?? $_ENV['DATABASE_URL'] ?? 'localhost';
+// For local development, you can set these directly or use a .env file
+$host = $_ENV['DB_HOST'] ?? $_ENV['DATABASE_URL'] ?? 'db.wrktgrdplrdlviqlmbwc.supabase.co';
 $port = $_ENV['DB_PORT'] ?? '5432';
 $database = $_ENV['DB_NAME'] ?? $_ENV['POSTGRES_DB'] ?? 'postgres';
 $username = $_ENV['DB_USERNAME'] ?? $_ENV['POSTGRES_USER'] ?? 'postgres';
-$password = $_ENV['DB_PASSWORD'] ?? $_ENV['POSTGRES_PASSWORD'] ?? '';
+$password = $_ENV['DB_PASSWORD'] ?? $_ENV['POSTGRES_PASSWORD'] ?? 'Rhunk9808*#';
 
 // Parse DATABASE_URL if provided (common in Supabase)
 if (isset($_ENV['DATABASE_URL'])) {
